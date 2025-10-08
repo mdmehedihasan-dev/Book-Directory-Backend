@@ -14,7 +14,6 @@ export const auth = async(req: AuthRequest, res: Response, next: NextFunction) =
             res.status(401).json({message: "Authentication token is required"});
             return;
         }
-
         const decoded = jwt.verify(token as string, config.jwt_secret as string) as {userId: string; role: string};
         const user = await User.findById(decoded.userId);
         if(!user) {
@@ -25,15 +24,11 @@ export const auth = async(req: AuthRequest, res: Response, next: NextFunction) =
             _id: user._id,
             role: user.role
         }
-
         next()
-        
     } catch (error) {
         res.status(401).json({message: 'Authentication failed!'})
     }
 }
-
-
 export const adminOnly = (req: AuthRequest, res: Response, next: NextFunction) => {
     if(req.user?.role !== 'admin') {
         res.status(403).json({message: "Access denied. Admin privileges required."})
