@@ -6,7 +6,7 @@ import errorHandler from "./app/middlewares/errorHandler";
 
 const app = express();
 
-// middlewares
+// middlewares =====
 app.use(express.json())
 app.use(cors())
 
